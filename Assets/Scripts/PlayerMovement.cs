@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float topSpeed;
     public float jumpPower;
     bool canJump;
+    public AudioSource jumpSound;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
             rigi.velocity = temp;
 
             rigi.AddForce(Vector3.up * jumpPower);
+            jumpSound.Play();
         }
 
         transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSpeed);

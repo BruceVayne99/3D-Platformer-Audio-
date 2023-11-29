@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     public Text timerText;
     public Text highScore;
     public Text gameOverMessage;
+    public AudioSource winSound;
+    public AudioSource loseSound;
+    public AudioSource backgroundMusic;
 
     public static bool playing;
 
@@ -39,6 +42,10 @@ public class GameManager : MonoBehaviour
         {
             Application.Quit();
         }
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            PlayerPrefs.DeleteAll();
+        }
 
 
         if (currentTimer > 0)
@@ -46,16 +53,21 @@ public class GameManager : MonoBehaviour
             currentTimer -= Time.deltaTime;
         }else if (playing)
         {
+            backgroundMusic.Stop();
+
             //do gameover stuff
             if(score > PlayerPrefs.GetInt("highscore", 0))
             {
                 highScore.text = "Highscore: " + score;
                 gameOverMessage.text = "New Highscore!";
                 PlayerPrefs.SetInt("highscore", score);
+                winSound.Play();
+
             }
             else
             {
                 gameOverMessage.text = "Better luck next time!";
+                loseSound.Play();
             }
 
             playing = false;
